@@ -1,3 +1,11 @@
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports.js';
+
+Amplify.configure(awsconfig);
+
+import { DataStore } from 'aws-amplify';
+import { Bookmark } from './src/models/index.js';
+
 function secondsToHMS(seconds) {
   const hrs = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds - (hrs * 3600)) / 60);
@@ -15,7 +23,34 @@ function secondsToHMS(seconds) {
   return timeString;
 }
 
-function populateBookmarks() {
+async function populateBookmarks() {
+  let bookmarks = await DataStore.query(Bookmark);
+  let bookmarksList = document.getElementById('bookmarksList');
+  bookmarksList.innerHTML = ''; // Clear previous bookmarks
+  bookmarks.forEach(function(bookmark, index) {
+    let timeString = secondsToHMS(bookmark.timestamp);
+    let li = document.createElement('li');
+    li.innerHTML = `${index + 1}. <a href="${bookmark.url}?t=${timeString}" target="_blank">${bookmark.title}</a> at ${timeString}
+                    <button class="delete-button" data-index="${index}">Delete</button>`;
+    bookmarksList.appendChild(li);
+  });
+
+  // Add event listeners to the delete buttons
+  document.querySelectorAll('.delete-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      deleteBookmark(bookmarks[this.getAttribute('data-index')]);
+    });
+  });
+}
+
+async function deleteBookmark(bookmark) {
+  await DataStore.delete(bookmark);
+  populateBookmarks(); // Refresh the bookmarks list
+}
+
+populateBookmarks(); // Call the function to populate the bookmarks when the page loads
+
+/* function populateBookmarks() {
   chrome.storage.sync.get('bookmarks', function(data) {
     let bookmarks = data.bookmarks || [];
     let bookmarksList = document.getElementById('bookmarksList');
@@ -47,3 +82,4 @@ function deleteBookmark(index) {
 }
 
 populateBookmarks(); // Call the function to populate the bookmarks when the page loads
+*/

@@ -1,5 +1,10 @@
 console.log('Content script is running!');
 
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports.js';
+
+Amplify.configure(awsconfig);
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   if (request.action === 'bookmarkVideo') {
     let video = document.querySelector('video');
