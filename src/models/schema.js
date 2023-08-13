@@ -31,6 +31,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "thumbnail": { // Add this field for thumbnail URL
+                    "name": "thumbnail",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "note": {
                     "name": "note",
                     "isArray": false,

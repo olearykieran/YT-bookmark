@@ -6,6 +6,22 @@ Amplify.configure(awsconfig);
 import { DataStore } from 'aws-amplify';
 import { Bookmark } from './src/models/index.js';
 
+// Function to update the bookmark count displayed in the popup
+async function updateBookmarkCount() {
+  console.log('Updating bookmark count...');
+  const existingBookmarks = await DataStore.query(Bookmark);
+  console.log('Existing bookmarks:', existingBookmarks); // Log the retrieved bookmarks
+  const bookmarkCount = existingBookmarks.length;
+
+  const bookmarkCountElement = document.getElementById('bookmarkCount');
+  bookmarkCountElement.textContent = bookmarkCount;
+
+  const bookmarkCountLabelElement = document.getElementById('bookmarkCountLabel');
+  bookmarkCountLabelElement.style.display = 'inline'; // Show the label
+}
+
+// Call the function when the popup is loaded
+updateBookmarkCount();
 
 function secondsToHMS(seconds) {
   const hrs = Math.floor(seconds / 3600);
@@ -24,34 +40,48 @@ function secondsToHMS(seconds) {
   return timeString;
 }
 
-document.getElementById('bookmark').addEventListener('click', function() {
+document.getElementById('bookmark').addEventListener('click', async function() {
   // Query the active tab
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, async function(tabs) {
     // Make sure at least one tab is found
     if (tabs.length === 0) {
       console.error('No active tab found');
       return;
     }
-    
-    // ... rest of the code
-    chrome.tabs.sendMessage(tabs[0].id, { action: "bookmarkVideo" }, function(response) {
-      // ... rest of the code
-      if (response) {
-        console.log("Debug time value:", response.time); // Add this line
-        let bookmark = {
-          url: response.url,
-          timestamp: response.time,
-          title: response.title,
-          timeString: secondsToHMS(response.time)
-        };
 
-        // Save the bookmark using Amplify's DataStore
-        DataStore.save(new Bookmark(bookmark)).then(() => {
+    console.log('Sending bookmarkVideo message to content script'); // Log before sending
+     
+    chrome.tabs.sendMessage(tabs[0].id, { action: "bookmarkVideo" }, async function(response) {
+      console.log('Received response from content script:', response);
+      if (response) {
+        try {
+          const existingBookmarks = await DataStore.query(Bookmark);
+          
+          if (existingBookmarks.length >= 10) {
+            // Display a notification when bookmark limit is reached
+            chrome.notifications.create({
+              type: 'basic',
+              iconUrl: './notification-icon.png',
+              title: 'Bookmark Limit Reached',
+              message: 'You have reached the maximum bookmark limit. Please delete some bookmarks to save new ones.',
+            });
+            return;
+          }
+
+          let bookmark = {
+            url: response.url,
+            timestamp: response.time,
+            title: response.title,
+            thumbnail: response.thumbnail,
+            timeString: secondsToHMS(response.time)
+          };
+
+          await DataStore.save(new Bookmark(bookmark));
           console.log("Bookmark saved successfully!");
-          // You can also handle any post-save actions here
-        }).catch(error => {
+          await updateBookmarkCount(); // Update the bookmark count asynchronously
+        } catch (error) {
           console.error("Error saving bookmark:", error);
-        });
+        }
       } else {
         console.error('No video found');
       }
@@ -69,9 +99,6 @@ document.getElementById('viewBookmarks').addEventListener('click', function() {
     }
   });
 });
-
-
-
 
 
 

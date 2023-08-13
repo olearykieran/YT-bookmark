@@ -1,75 +1,133 @@
+body {
+  font-family: 'Roboto', sans-serif; /* Use Roboto */
+  background: linear-gradient(to right, #000000, #333333); /* Black gradient */
+  color: #d32f2f;
+  margin: 30px;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffffff; /* YouTube Red */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#bookmarksList li {
+  list-style-type: none;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #fbfbfb;
+  border-radius: 5px;
+  background-color: #222222; /* Dark background for list items */
+}
+
+#bookmarksList a {
+  text-decoration: none;
+  color: #f0f0f0; /* YouTube Red */
+  text-align: center;
+  
+}
+
+#bookmarksList a:hover {
+  text-decoration: underline;
+}
+
 .delete-button {
-    background-color: #f44336; /* Red */
-    color: white; /* Text color */
-    padding: 10px 20px; /* Padding around the text */
-    margin: 5px; /* Margin around the button */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Hand cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition */
-  }
-  
-  .delete-button:hover {
-    background-color: #d32f2f; /* Darker red on hover */
-  }
+  background-color: #d32f2f; /* Match the button color */
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: bold; /* Make the text bold */
+}
 
-  #bookmarksList li {
-    list-style-type: none; /* No bullet points */
-    padding: 10px; /* Padding inside each item */
-    margin: 5px 0; /* Margin between items */
-    border: 1px solid #ddd; /* Light border */
-    border-radius: 5px; /* Rounded corners */
-  }
-  
-  #bookmarksList a {
-    text-decoration: none; /* No underline */
-    color: #2196F3; /* Link color */
-  }
-  
-  #bookmarksList a:hover {
-    text-decoration: underline; /* Underline on hover */
-  }
+.delete-button:hover {
+  background-color: #ee6969; /* Match the button hover color */
+}
 
-  body {
-    font-family: Arial, sans-serif; /* Basic, readable font */
-    margin: 15px; /* Margin around the whole popup */
-    text-align: center; /* Center the text */
-    background: linear-gradient(to right, #a6e7ff, #ffabab);
-  }
+li {
+  list-style-type: none;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+  text-align: center;
+}
 
-  h1 {
-    font-size: 28px; /* Increase the title size */
-    font-weight: bold; /* Make the title bold */
-    color: #333; /* Darker text color for the title */
-    margin-bottom: 20px; /* Space below the title */
-    text-transform: uppercase; /* Uppercase for more emphasis */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
+li a {
+  text-decoration: none;
+  color: #b31818;
+  transition: color 0.3s ease;
+  text-align: center;
+}
 
-  li {
-    list-style-type: none;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    font-size: 16px;
-  }
-  
-  li a {
-    text-decoration: none;
-    color: #3366cc;
-    transition: color 0.3s ease;
-  }
+li a:hover {
+  color: #FF0000; /* YouTube Red */
+}
 
-  li a:hover {
-    color: #ff3333;
-  }
-  
-  .delete-button {
-    background-color: #ff4d4d;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    margin: 10px auto; /* Center the button with auto left and right margins */
-    display: block;
-    width: 80px; /* You can adjust the width as needed */
-  }
+.delete-button {
+  background-color: #ff4d4d;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  margin: 10px auto;
+  display: block;
+  width: 80px;
+}
+
+.container {
+  padding: 20px; /* You can adjust the padding as needed */
+  background: linear-gradient(to right, #000000, #333333); /* Black gradient */
+  color: #ffffff; /* White text color */
+  position: relative; /* Enable absolute positioning within this container */
+}
+
+.icon {
+  position: absolute; /* Position the icon absolutely within the container */
+  top: 10px; /* Distance from the top of the container */
+  left: 10px; /* Distance from the left of the container */
+  width: 48px; /* You can adjust the size as needed */
+}
+
+.header-container {
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Align items vertically */
+  justify-content: center; /* Align items horizontally */
+}
+
+.icon-center {
+  width: 32px; /* Adjust the width as needed */
+  margin-right: 10px; /* Space between the icon and the title */
+}
+
+.thumbnail {
+  width: 200px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Space between the thumbnail and title */
+  border-radius: 20px; /* Optional: Rounded corners */
+  display: flex;
+  align-items: center; /* Vertical centering */
+}
+
+/* Add this to your CSS */
+.thumbnail-container {
+  display: flex;
+  align-items: center; /* Vertical centering */
+  justify-content: center; /* Center horizontally */
+}
+
+.bookmark-details {
+  text-align: center; /* Center align the details */
+  margin-top: 10px;
+  font-size: 16px; /* Add spacing between thumbnail and details */
+}
+
+.bookmark-details h2 {
+  margin: 10px 0;
+  font-size: 16px; /* Add spacing around the title */
+}

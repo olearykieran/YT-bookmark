@@ -8,6 +8,7 @@ export const getBookmark = /* GraphQL */ `
       url
       timestamp
       title
+      thumbnail
       note
       version
       lastChangedAt
@@ -30,6 +31,7 @@ export const listBookmarks = /* GraphQL */ `
         url
         timestamp
         title
+        thumbnail
         note
         version
         lastChangedAt

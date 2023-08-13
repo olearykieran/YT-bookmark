@@ -11,6 +11,7 @@ export const createBookmark = /* GraphQL */ `
       url
       timestamp
       title
+      thumbnail
       note
       version
       lastChangedAt
@@ -31,6 +32,7 @@ export const updateBookmark = /* GraphQL */ `
       url
       timestamp
       title
+      thumbnail
       note
       version
       lastChangedAt
@@ -51,6 +53,7 @@ export const deleteBookmark = /* GraphQL */ `
       url
       timestamp
       title
+      thumbnail
       note
       version
       lastChangedAt
