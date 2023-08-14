@@ -63,12 +63,7 @@ document.getElementById('bookmark').addEventListener('click', async function() {
           
           if (existingBookmarks.length >= 10) {
             // Display a notification when bookmark limit is reached
-            chrome.notifications.create({
-              type: 'basic',
-              iconUrl: './notification-icon.png',
-              title: 'Bookmark Limit Reached',
-              message: 'You have reached the maximum bookmark limit. Please delete some bookmarks to save new ones.',
-            });
+            alert('You have reached the maximum bookmark limit. Please delete some bookmarks to save new ones.'); // Alert for limit reached
             return;
           }
 
@@ -81,6 +76,7 @@ document.getElementById('bookmark').addEventListener('click', async function() {
 
           await DataStore.save(new Bookmark(bookmark));
           console.log("Bookmark saved successfully!");
+          alert("Bookmark saved successfully!");
           console.log("bookmark:", bookmark);
           await updateBookmarkCount(); // Update the bookmark count asynchronously
         } catch (error) {

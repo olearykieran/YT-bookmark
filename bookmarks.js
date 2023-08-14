@@ -57,8 +57,14 @@ async function populateBookmarks() {
 }
 
 async function deleteBookmark(bookmark) {
-  await DataStore.delete(bookmark); // Clear local cache
-  populateBookmarks(); // Refresh the bookmarks list
+  // Ask the user for confirmation
+  const isConfirmed = window.confirm("Are you sure you want to delete this bookmark?");
+  
+  // If the user clicks "OK", proceed with the deletion
+  if (isConfirmed) {
+    await DataStore.delete(bookmark); // Clear local cache
+    populateBookmarks(); // Refresh the bookmarks list
+  }
 }
 
 populateBookmarks(); // Call the function to populate the bookmarks when the page loads
