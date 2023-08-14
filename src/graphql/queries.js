@@ -10,9 +10,6 @@ export const getBookmark = /* GraphQL */ `
       title
       thumbnail
       note
-      version
-      lastChangedAt
-      isDeleted
       createdAt
       updatedAt
       __typename
@@ -33,9 +30,6 @@ export const listBookmarks = /* GraphQL */ `
         title
         thumbnail
         note
-        version
-        lastChangedAt
-        isDeleted
         createdAt
         updatedAt
         __typename

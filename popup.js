@@ -1,7 +1,11 @@
 import { Amplify } from 'aws-amplify';
 import awsconfig from './src/aws-exports.js';
+import awsmobile from './src/aws-exports.js';
 
 Amplify.configure(awsconfig);
+Amplify.configure(awsmobile);
+
+Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 import { DataStore } from 'aws-amplify';
 import { Bookmark } from './src/models/index.js';
@@ -77,6 +81,7 @@ document.getElementById('bookmark').addEventListener('click', async function() {
 
           await DataStore.save(new Bookmark(bookmark));
           console.log("Bookmark saved successfully!");
+          console.log("bookmark:", bookmark);
           await updateBookmarkCount(); // Update the bookmark count asynchronously
         } catch (error) {
           console.error("Error saving bookmark:", error);

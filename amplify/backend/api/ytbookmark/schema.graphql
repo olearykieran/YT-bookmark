@@ -5,7 +5,4 @@ type Bookmark @model @auth(rules: [{allow: public}]) {
   title: String
   thumbnail: String
   note: String
-  version: Int
-  lastChangedAt: Int
-  isDeleted: Boolean
 } 
