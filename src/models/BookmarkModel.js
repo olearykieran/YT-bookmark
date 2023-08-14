@@ -1,4 +1,4 @@
-/* import { Model, field } from 'aws-amplify';
+import { Model, field } from 'aws-amplify';
 
 @Model()
 export class Bookmark {
@@ -10,4 +10,4 @@ export class Bookmark {
   @field({ type: 'String' }) thumbnail;
   @field({ type: 'AWSDateTime' }) createdAt;
   @field({ type: 'AWSDateTime' }) updatedAt;
-} */
+} 

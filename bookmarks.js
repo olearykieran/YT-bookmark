@@ -35,14 +35,16 @@ async function populateBookmarks() {
     let displayThumbnailUrl = `${thumbnailUrl}`;
     let li = document.createElement('li');
     console.log('Thumbnail URL:', thumbnailUrl);
-    li.innerHTML = `<div class="thumbnail-container">
-                  <img src="${displayThumbnailUrl}" class="thumbnail">
-                </div>
-                <div class="bookmark-details">
-                  <h2><a href="${bookmark.url}?t=${timeString}" target="_blank">${index + 1}. ${bookmark.title}</a></h2>
-                  <p>${timeString}</p>
-                  <button class="delete-button" data-index="${index}">Delete</button>
-                </div>`;
+    li.innerHTML = `<div class="bookmark-details">
+                      <div class="thumbnail-container">
+                        <img src="${displayThumbnailUrl}" class="thumbnail">
+                      </div>
+                      <div class="text-container">
+                        <h2><a href="${bookmark.url}?t=${timeString}" target="_blank">${index + 1}. ${bookmark.title}</a></h2>
+                        <p>${timeString}</p>
+                        <button class="delete-button" data-index="${index}">Delete</button>
+                      </div>
+                    </div>`;
     bookmarksList.appendChild(li);
   });
 

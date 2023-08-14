@@ -1,17 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Roboto', sans-serif; /* Use Roboto */
-  background: linear-gradient(to right, #000000, #333333); /* Black gradient */
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, #000000, #333333);
   color: #d32f2f;
   margin: 30px;
   font-weight: bold;
+  text-align: center; /* Center everything by default */
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column; /* Stack icon and title vertically */
+  align-items: center; /* Center horizontally */
+  margin-bottom: 20px;
 }
 
 h1 {
   font-size: 28px;
   font-weight: bold;
-  color: #ffffff; /* YouTube Red */
-  margin-bottom: 20px;
-  text-align: center;
+  color: #ffffff;
 }
 
 #bookmarksList li {
@@ -20,14 +33,16 @@ h1 {
   margin: 5px 0;
   border: 1px solid #fbfbfb;
   border-radius: 5px;
-  background-color: #222222; /* Dark background for list items */
+  background-color: #222222;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  align-items: center; /* Center horizontally */
+  text-align: center;
 }
 
 #bookmarksList a {
   text-decoration: none;
-  color: #f0f0f0; /* YouTube Red */
-  text-align: center;
-  
+  color: #f0f0f0;
 }
 
 #bookmarksList a:hover {
@@ -50,84 +65,33 @@ h1 {
   background-color: #ee6969; /* Match the button hover color */
 }
 
-li {
-  list-style-type: none;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  font-size: 16px;
-  text-align: center;
-}
-
-li a {
-  text-decoration: none;
-  color: #b31818;
-  transition: color 0.3s ease;
-  text-align: center;
-}
-
-li a:hover {
-  color: #FF0000; /* YouTube Red */
-}
-
-.delete-button {
-  background-color: #ff4d4d;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-  margin: 10px auto;
-  display: block;
-  width: 80px;
-}
-
-.container {
-  padding: 20px; /* You can adjust the padding as needed */
-  background: linear-gradient(to right, #000000, #333333); /* Black gradient */
-  color: #ffffff; /* White text color */
-  position: relative; /* Enable absolute positioning within this container */
-}
-
-.icon {
-  position: absolute; /* Position the icon absolutely within the container */
-  top: 10px; /* Distance from the top of the container */
-  left: 10px; /* Distance from the left of the container */
-  width: 48px; /* You can adjust the size as needed */
-}
-
-.header-container {
-  display: flex; /* Enable flexbox */
-  align-items: center; /* Align items vertically */
-  justify-content: center; /* Align items horizontally */
-}
-
-.icon-center {
-  width: 32px; /* Adjust the width as needed */
-  margin-right: 10px; /* Space between the icon and the title */
-}
-
 .thumbnail {
-  width: 200px; /* Adjust width as needed */
-  height: auto; /* Maintain aspect ratio */
-  margin-right: 10px; /* Space between the thumbnail and title */
-  border-radius: 20px; /* Optional: Rounded corners */
-  display: flex;
-  align-items: center; /* Vertical centering */
+  width: 200px;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.8); /* Add shadow */
 }
 
-/* Add this to your CSS */
 .thumbnail-container {
   display: flex;
-  align-items: center; /* Vertical centering */
-  justify-content: center; /* Center horizontally */
+  flex-direction: column; /* Stack the thumbnail and text vertically */
+  align-items: center; /* Center horizontally */
 }
 
 .bookmark-details {
-  text-align: center; /* Center align the details */
+  display: flex;
+  flex-direction: column; /* Stack the thumbnail and text vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   margin-top: 10px;
-  font-size: 16px; /* Add spacing between thumbnail and details */
+  font-size: 16px;
 }
 
 .bookmark-details h2 {
   margin: 10px 0;
-  font-size: 16px; /* Add spacing around the title */
+  font-size: 16px;
+}
+
+.text-container {
+  text-align: center; /* Center the text */
 }

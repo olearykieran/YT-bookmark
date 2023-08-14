@@ -73,7 +73,6 @@ document.getElementById('bookmark').addEventListener('click', async function() {
             timestamp: response.time,
             title: response.title,
             thumbnail: response.thumbnail,
-            timeString: secondsToHMS(response.time)
           };
 
           await DataStore.save(new Bookmark(bookmark));
