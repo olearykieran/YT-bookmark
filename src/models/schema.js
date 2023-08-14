@@ -31,7 +31,7 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "thumbnail": { // Add this field for thumbnail URL
+                "thumbnail": {
                     "name": "thumbnail",
                     "isArray": false,
                     "type": "String",
@@ -60,7 +60,7 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
+                }
             },
             "syncable": true,
             "pluralName": "Bookmarks",
@@ -68,6 +68,22 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
                 }
             ]
         }
@@ -75,5 +91,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "fe246c1705e2fd11ecd1a08460c26511"
+    "version": "32c3bd097325f10df10086ee58a93936"
 };

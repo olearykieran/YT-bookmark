@@ -34,6 +34,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   }
 });
 
+
+
+
 /*
 async function deleteAllBookmarks() {
   const bookmarks = await DataStore.query(Bookmark);

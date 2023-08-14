@@ -12,6 +12,9 @@ export const onCreateBookmark = /* GraphQL */ `
       note
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -27,6 +30,9 @@ export const onUpdateBookmark = /* GraphQL */ `
       note
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -42,6 +48,9 @@ export const onDeleteBookmark = /* GraphQL */ `
       note
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
