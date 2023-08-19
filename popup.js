@@ -42,9 +42,14 @@ async function getUserId() {
 // Function to update the bookmark count displayed in the popup
 async function updateBookmarkCount() {
   console.log('Updating bookmark count...');
-  const existingBookmarks = await DataStore.query(Bookmark);
-  console.log('Existing bookmarks:', existingBookmarks); // Log the retrieved bookmarks
-  const bookmarkCount = existingBookmarks.length;
+  const userId = await getUserId(); // Get user ID using Chrome Identity API
+  console.log('userId:', userId);
+  
+  const allBookmarks = await DataStore.query(Bookmark);
+  const userBookmarks = allBookmarks.filter(bookmark => bookmark.userID === userId.toString());
+  console.log('User bookmarks:', userBookmarks); // Log the retrieved bookmarks for the user
+
+  const bookmarkCount = userBookmarks.length; // Count only the bookmarks for the current user
 
   const bookmarkCountElement = document.getElementById('bookmarkCount');
   bookmarkCountElement.textContent = bookmarkCount;
@@ -89,10 +94,11 @@ document.getElementById('bookmark').addEventListener('click', async function() {
       if (response) {
         try {
           const uId = await getUserId(); // Get user ID using Chrome Identity API
-          console.log('userId:', uId); // Log the value
-          
-          const existingBookmarks = await DataStore.query(Bookmark);
-          console.log('Existing bookmarks for user:', existingBookmarks); // Log the retrieved bookmarks for the user
+          console.log('userId:', uId);
+
+          const allBookmarks = await DataStore.query(Bookmark);
+          const existingBookmarks = allBookmarks.filter(bookmark => bookmark.userID === uId.toString());
+          console.log('Existing bookmarks for user:', existingBookmarks);
 
           
           if (existingBookmarks.length >= 10) {

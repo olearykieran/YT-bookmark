@@ -55,11 +55,12 @@ async function populateBookmarks() {
   const userId = await getUserId();
   const filter = { userID: { eq: userId } };
   console.log('populateBookmarks() function called'); // Add this line
-  let bookmarks = await DataStore.query(Bookmark);
-  console.log('Retrieved bookmarks:', bookmarks); // Add this line
+  let allBookmarks = await DataStore.query(Bookmark);
+  console.log('All bookmarks:', allBookmarks);
+  let userBookmarks = allBookmarks.filter(bookmark => bookmark.userID === userId.toString());
   let bookmarksList = document.getElementById('bookmarksList');
   bookmarksList.innerHTML = ''; // Clear previous bookmarks
-  bookmarks.forEach(function(bookmark, index) {
+  userBookmarks.forEach(function(bookmark, index) {
     let timeString = secondsToHMS(bookmark.timestamp);
     let thumbnailUrl = bookmark.thumbnail;
     let displayThumbnailUrl = `${thumbnailUrl}`;
