@@ -1,8 +1,0 @@
-type Bookmark @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  url: String!
-  timestamp: Float!
-  title: String
-  thumbnail: String
-  note: String
-} 
