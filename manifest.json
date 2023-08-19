@@ -3,7 +3,7 @@
     "name": "Video Bookmark",
     "description": "Bookmarks your place in YouTube videos",
     "version": "1.1",
-    "permissions": ["storage", "activeTab", "identity"],
+    "permissions": ["storage", "activeTab", "identity", "identity.email"],
     "host_permissions": ["*://www.youtube.com/*"],
     "action": {
       "default_popup": "popup.html",
@@ -12,6 +12,10 @@
         "48": "icon48.png",
         "128": "icon128.png"
       }
+    },
+    "oauth2": {
+      "client_id": "104450301375-2r8cit0hiqprgtij3k5l8g52im9e8d5e.apps.googleusercontent.com",
+      "scopes": ["https://www.googleapis.com/auth/userinfo.profile"]
     },
     "content_scripts": [
       {
@@ -25,3 +29,5 @@
       "128": "icon128.png"
     }
   }
+
+ 

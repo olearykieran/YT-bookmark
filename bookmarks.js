@@ -6,14 +6,30 @@ Amplify.configure(awsconfig);
 import { DataStore } from 'aws-amplify';
 import { Bookmark } from './src/models/index.js';
 
-function getUserId() {
+async function getUserId() {
   return new Promise((resolve, reject) => {
-    chrome.identity.getProfileUserInfo(function(userInfo) {
+    chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
       if (chrome.runtime.lastError) {
+        console.error('Error fetching auth token:', chrome.runtime.lastError);
         reject(chrome.runtime.lastError);
-      } else {
-        resolve(userInfo.id);
+        return;
       }
+
+      // Use the token to fetch user profile information
+      fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('User Profile:', data); // Log entire user profile
+        resolve(data.id); // Return the user ID or other relevant field
+      })
+      .catch(error => {
+        console.error('Error fetching user profile:', error);
+        reject(error);
+      });
     });
   });
 }
@@ -37,8 +53,9 @@ function secondsToHMS(seconds) {
 
 async function populateBookmarks() {
   const userId = await getUserId();
+  const filter = { userID: { eq: userId } };
   console.log('populateBookmarks() function called'); // Add this line
-  let bookmarks = await DataStore.query(Bookmark, b => b.userID('eq', userId));
+  let bookmarks = await DataStore.query(Bookmark);
   console.log('Retrieved bookmarks:', bookmarks); // Add this line
   let bookmarksList = document.getElementById('bookmarksList');
   bookmarksList.innerHTML = ''; // Clear previous bookmarks
@@ -82,36 +99,3 @@ async function deleteBookmark(bookmark) {
 
 populateBookmarks(); // Call the function to populate the bookmarks when the page loads
 
-/* function populateBookmarks() {
-  chrome.storage.sync.get('bookmarks', function(data) {
-    let bookmarks = data.bookmarks || [];
-    let bookmarksList = document.getElementById('bookmarksList');
-    bookmarksList.innerHTML = ''; // Clear previous bookmarks
-    bookmarks.forEach(function(bookmark, index) {
-      let timeString = secondsToHMS(bookmark.time);
-      let li = document.createElement('li');
-      // Added (index + 1) to the displayed text to number the bookmarks
-      li.innerHTML = `${index + 1}. <a href="${bookmark.url}?t=${timeString}" target="_blank">${bookmark.title}</a> at ${timeString}
-                      <button class="delete-button" data-index="${index}">Delete</button>`;
-      bookmarksList.appendChild(li);
-    });
-
-    // Add event listeners to the delete buttons
-    document.querySelectorAll('.delete-button').forEach(function(button) {
-      button.addEventListener('click', function() {
-        deleteBookmark(this.getAttribute('data-index'));
-      });
-    });
-  });
-}
-
-function deleteBookmark(index) {
-  chrome.storage.sync.get('bookmarks', function(data) {
-    let bookmarks = data.bookmarks || [];
-    bookmarks.splice(index, 1);
-    chrome.storage.sync.set({ bookmarks: bookmarks }, populateBookmarks);
-  });
-}
-
-populateBookmarks(); // Call the function to populate the bookmarks when the page loads
-*/

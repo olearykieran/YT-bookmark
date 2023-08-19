@@ -1,27 +1,43 @@
 import { Amplify } from 'aws-amplify';
 import awsconfig from './src/aws-exports.js';
 import awsmobile from './src/aws-exports.js';
-import { Auth } from 'aws-amplify';
 
 Amplify.configure(awsconfig);
 Amplify.configure(awsmobile);
 
-Amplify.Logger.LOG_LEVEL = 'DEBUG';
+// Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 import { DataStore } from 'aws-amplify';
 import { Bookmark } from './src/models/index.js';
 
-function getUserId() {
+async function getUserId() {
   return new Promise((resolve, reject) => {
-    chrome.identity.getProfileUserInfo(function(userInfo) {
+    chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
       if (chrome.runtime.lastError) {
+        console.error('Error fetching auth token:', chrome.runtime.lastError);
         reject(chrome.runtime.lastError);
-      } else {
-        resolve(userInfo.id);
+        return;
       }
+
+      // Use the token to fetch user profile information
+      fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('User Profile:', data); // Log entire user profile
+        resolve(data.id); // Return the user ID or other relevant field
+      })
+      .catch(error => {
+        console.error('Error fetching user profile:', error);
+        reject(error);
+      });
     });
   });
 }
+
 
 // Function to update the bookmark count displayed in the popup
 async function updateBookmarkCount() {
@@ -72,8 +88,12 @@ document.getElementById('bookmark').addEventListener('click', async function() {
       console.log('Received response from content script:', response);
       if (response) {
         try {
-          const userId = await getUserId(); // Get user ID using Chrome Identity API
-          const existingBookmarks = await DataStore.query(Bookmark, b => b.userID('eq', userId));
+          const uId = await getUserId(); // Get user ID using Chrome Identity API
+          console.log('userId:', uId); // Log the value
+          
+          const existingBookmarks = await DataStore.query(Bookmark);
+          console.log('Existing bookmarks for user:', existingBookmarks); // Log the retrieved bookmarks for the user
+
           
           if (existingBookmarks.length >= 10) {
             // Display a notification when bookmark limit is reached
@@ -86,8 +106,10 @@ document.getElementById('bookmark').addEventListener('click', async function() {
             timestamp: response.time,
             title: response.title,
             thumbnail: response.thumbnail,
-            userID: userId
+            userID: uId
           };
+
+          console.log('bookmark object:', bookmark); // Log the bookmark object
 
           await DataStore.save(new Bookmark(bookmark));
           console.log("Bookmark saved successfully!");
@@ -114,56 +136,3 @@ document.getElementById('viewBookmarks').addEventListener('click', function() {
     }
   });
 });
-
-
-
-
-
-
-
-
-/* document.getElementById('bookmark').addEventListener('click', function() {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { action: "bookmarkVideo" }, function(response) {
-      if (chrome.runtime.lastError) {
-        console.error('An error occurred:', chrome.runtime.lastError.message);
-        return;
-      }
-      if (response) {
-        console.log('Test message received', response);
-        chrome.storage.sync.get('bookmarks', function(data) {
-          let bookmarks = data.bookmarks || [];
-          bookmarks.unshift(response); // Add the new bookmark to the beginning
-          bookmarks = bookmarks.slice(0, 10); // Keep only the latest 10 bookmarks
-          chrome.storage.sync.set({ bookmarks: bookmarks }, function() {
-            if (chrome.runtime.lastError) {
-              console.error(chrome.runtime.lastError);
-            } else {
-              // Bookmark saved.
-            }
-          });
-        });
-      } else {
-        console.error('No video found');
-      }
-    });
-  });
-});
-
-  
-  // You can also retrieve and display previously saved bookmarks here
-
-  document.getElementById('viewBookmarks').addEventListener('click', function() {
-    chrome.tabs.create({ url: 'bookmarks.html' });
-  });
-
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { action: "bookmarkVideo" }, function(response) {
-      if (response) {
-        console.log('Test message received', response);
-      } else {
-        console.error('No response received');
-      }
-    });
-  });
-*/
