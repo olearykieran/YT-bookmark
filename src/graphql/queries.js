@@ -10,6 +10,7 @@ export const getBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version
@@ -33,6 +34,7 @@ export const listBookmarks = /* GraphQL */ `
         title
         thumbnail
         note
+        userID
         createdAt
         updatedAt
         _version
@@ -66,6 +68,7 @@ export const syncBookmarks = /* GraphQL */ `
         title
         thumbnail
         note
+        userID
         createdAt
         updatedAt
         _version

@@ -10,6 +10,7 @@ export const onCreateBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version
@@ -28,6 +29,7 @@ export const onUpdateBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version
@@ -46,6 +48,7 @@ export const onDeleteBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version

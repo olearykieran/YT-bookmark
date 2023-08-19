@@ -1,6 +1,7 @@
 import { Amplify } from 'aws-amplify';
 import awsconfig from './src/aws-exports.js';
 import awsmobile from './src/aws-exports.js';
+import { Auth } from 'aws-amplify';
 
 Amplify.configure(awsconfig);
 Amplify.configure(awsmobile);
@@ -9,6 +10,18 @@ Amplify.Logger.LOG_LEVEL = 'DEBUG';
 
 import { DataStore } from 'aws-amplify';
 import { Bookmark } from './src/models/index.js';
+
+function getUserId() {
+  return new Promise((resolve, reject) => {
+    chrome.identity.getProfileUserInfo(function(userInfo) {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(userInfo.id);
+      }
+    });
+  });
+}
 
 // Function to update the bookmark count displayed in the popup
 async function updateBookmarkCount() {
@@ -59,7 +72,8 @@ document.getElementById('bookmark').addEventListener('click', async function() {
       console.log('Received response from content script:', response);
       if (response) {
         try {
-          const existingBookmarks = await DataStore.query(Bookmark);
+          const userId = await getUserId(); // Get user ID using Chrome Identity API
+          const existingBookmarks = await DataStore.query(Bookmark, b => b.userID('eq', userId));
           
           if (existingBookmarks.length >= 10) {
             // Display a notification when bookmark limit is reached
@@ -72,6 +86,7 @@ document.getElementById('bookmark').addEventListener('click', async function() {
             timestamp: response.time,
             title: response.title,
             thumbnail: response.thumbnail,
+            userID: userId
           };
 
           await DataStore.save(new Bookmark(bookmark));
@@ -99,6 +114,7 @@ document.getElementById('viewBookmarks').addEventListener('click', function() {
     }
   });
 });
+
 
 
 

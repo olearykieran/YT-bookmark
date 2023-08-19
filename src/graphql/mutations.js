@@ -13,6 +13,7 @@ export const createBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version
@@ -34,6 +35,7 @@ export const updateBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version
@@ -55,6 +57,7 @@ export const deleteBookmark = /* GraphQL */ `
       title
       thumbnail
       note
+      userID
       createdAt
       updatedAt
       _version

@@ -5,4 +5,5 @@ type Bookmark @model @auth(rules: [{allow: public}]) {
   title: String
   thumbnail: String
   note: String
-} 
+  userID: String!
+}

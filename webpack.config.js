@@ -5,7 +5,7 @@ module.exports = {
   entry: {
     popup: './popup.js',
     bookmarks: './bookmarks.js', // Adjust paths according to your structure
-    content: './content.js', // Add this line to include your content.js
+    content: './content.js',
   },
   output: {
     filename: '[name].js',

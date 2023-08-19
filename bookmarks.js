@@ -6,6 +6,18 @@ Amplify.configure(awsconfig);
 import { DataStore } from 'aws-amplify';
 import { Bookmark } from './src/models/index.js';
 
+function getUserId() {
+  return new Promise((resolve, reject) => {
+    chrome.identity.getProfileUserInfo(function(userInfo) {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(userInfo.id);
+      }
+    });
+  });
+}
+
 function secondsToHMS(seconds) {
   const hrs = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds - (hrs * 3600)) / 60);
@@ -24,8 +36,9 @@ function secondsToHMS(seconds) {
 }
 
 async function populateBookmarks() {
+  const userId = await getUserId();
   console.log('populateBookmarks() function called'); // Add this line
-  let bookmarks = await DataStore.query(Bookmark);
+  let bookmarks = await DataStore.query(Bookmark, b => b.userID('eq', userId));
   console.log('Retrieved bookmarks:', bookmarks); // Add this line
   let bookmarksList = document.getElementById('bookmarksList');
   bookmarksList.innerHTML = ''; // Clear previous bookmarks

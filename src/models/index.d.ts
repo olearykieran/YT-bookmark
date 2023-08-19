@@ -17,6 +17,7 @@ type EagerBookmark = {
   readonly title?: string | null;
   readonly thumbnail?: string | null;
   readonly note?: string | null;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -32,6 +33,7 @@ type LazyBookmark = {
   readonly title?: string | null;
   readonly thumbnail?: string | null;
   readonly note?: string | null;
+  readonly userID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
