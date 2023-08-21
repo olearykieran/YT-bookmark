@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Video Bookmark",
     "description": "Bookmarks your place in YouTube videos",
-    "version": "1.1",
+    "version": "1.2",
     "permissions": ["storage", "activeTab", "identity", "identity.email"],
     "host_permissions": ["*://www.youtube.com/*"],
     "action": {
