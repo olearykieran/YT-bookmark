@@ -1,5 +1,5 @@
 projects:
-  ytbookmark-dev:
+  ytbookmark:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
@@ -10,9 +10,3 @@ projects:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
-        region: us-east-1
-        apiId: c73vmj4j7fhi7gb56psml7t2tu
-        maxDepth: 2
-extensions:
-  amplify:
-    version: 3
