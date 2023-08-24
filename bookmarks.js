@@ -82,7 +82,7 @@ async function populateBookmarks() {
   // Add event listeners to the delete buttons
   document.querySelectorAll('.delete-button').forEach(function(button) {
     button.addEventListener('click', function() {
-      deleteBookmark(bookmarks[this.getAttribute('data-index')]);
+      deleteBookmark(userBookmarks[this.getAttribute('data-index')]);
     });
   });
 }
